@@ -6,6 +6,7 @@ import netifaces
 import requests
 
 # CONSTS
+SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 SUCCESS = 0
 # error codes
 ARGV_ERROR = 1
@@ -25,6 +26,9 @@ def main():
     if sys.argv[1] == '-h' or sys.argv[1] == '--help':
         print("# gandi-ddns")
         print("just run ./main.py config.json")
+        print("# cronjob")
+        print("@reboot python3 " + SCRIPT_DIR + '/main.py '+ SCRIPT_DIR + '/config.json &')
+        print("*/15 * * * * python3 "+ SCRIPT_DIR + '/main.py ' + SCRIPT_DIR + '/config.json')
         sys.exit(SUCCESS)
     with open(sys.argv[1]) as config_file:
         data = json.load(config_file)
